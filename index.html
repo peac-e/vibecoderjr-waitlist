@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>VibeCoder Jr. — Where Young Minds Learn to Build</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --surface:#fcf9f8;
+  --surface-low:#f6f3f2;
+  --surface-lowest:#ffffff;
+  --surface-high:#ece9e8;
+  --surface-highest:#e0dddc;
+  --surface-variant:#f0ece9;
+  --on-surface:#1c1b1b;
+  --on-surface-muted:#6b6766;
+  --on-surface-faint:#a09c9a;
+  --primary:#f59e0b;
+  --primary-container:#fef3c7;
+  --primary-dark:#b45309;
+  --inverse-surface:#313030;
+  --inverse-on-surface:#f0eeee;
+  --outline-variant:rgba(28,27,27,0.15);
+  --font-display:'Newsreader',Georgia,serif;
+  --font-body:'Manrope',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --radius:12px;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--surface);color:var(--on-surface);line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(252,249,248,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--outline-variant);padding:0 clamp(24px,5vw,80px)}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{font-family:var(--font-display);font-size:1.2rem;font-weight:500;color:var(--on-surface);letter-spacing:-0.02em}
+.nav-logo span{color:var(--primary-dark)}
+.nav-cta{font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--on-surface);background:var(--primary-container);border:none;padding:8px 20px;border-radius:100px;cursor:pointer;transition:background .25s var(--ease)}
+.nav-cta:hover{background:var(--primary)}
+
+/* HERO */
+.hero{max-width:1100px;margin:0 auto;padding:clamp(60px,10vw,120px) clamp(24px,5vw,80px) clamp(40px,6vw,80px)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--primary-dark);margin-bottom:24px}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--primary)}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.6rem,6vw,4.2rem);font-weight:500;line-height:1.1;letter-spacing:-0.02em;color:var(--on-surface);max-width:720px;margin-bottom:24px}
+.hero h1 em{font-style:italic;color:var(--primary-dark)}
+.hero-sub{font-size:clamp(1rem,1.5vw,1.15rem);color:var(--on-surface-muted);max-width:520px;line-height:1.7;margin-bottom:40px}
+.hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.btn-primary{font-family:var(--font-body);font-size:15px;font-weight:600;color:var(--on-surface);background:var(--primary);border:none;padding:14px 32px;border-radius:100px;cursor:pointer;transition:background .25s var(--ease),transform .2s var(--ease);text-decoration:none;display:inline-block}
+.btn-primary:hover{background:#e8920a;transform:translateY(-1px)}
+.btn-ghost{font-size:14px;font-weight:500;color:var(--on-surface-muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s var(--ease)}
+.btn-ghost:hover{color:var(--on-surface)}
+.btn-ghost svg{transition:transform .2s var(--ease)}
+.btn-ghost:hover svg{transform:translateX(3px)}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:40px}
+.badge{font-size:12px;font-weight:500;color:var(--on-surface-muted);background:var(--surface-low);padding:5px 14px;border-radius:100px}
+
+/* HOW IT WORKS */
+.section{max-width:1100px;margin:0 auto;padding:clamp(60px,8vw,100px) clamp(24px,5vw,80px)}
+.section-tag{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--primary-dark);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-tag::after{content:'';flex:1;max-width:40px;height:1px;background:var(--primary)}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:500;letter-spacing:-0.02em;color:var(--on-surface);line-height:1.2;margin-bottom:16px}
+.section-subtitle{font-size:1rem;color:var(--on-surface-muted);max-width:480px;line-height:1.7}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:60px;position:relative}
+.steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--outline-variant) 20%,var(--outline-variant) 80%,transparent);pointer-events:none}
+.step{padding:0 24px 0 0;position:relative}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--surface-lowest);border:1px solid var(--outline-variant);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;font-weight:500;color:var(--on-surface);margin-bottom:28px;position:relative;z-index:1}
+.step:nth-child(2) .step-num{background:var(--primary-container);border-color:transparent;color:var(--primary-dark)}
+.step h3{font-family:var(--font-display);font-size:1.2rem;font-weight:500;letter-spacing:-0.01em;color:var(--on-surface);margin-bottom:10px}
+.step p{font-size:14px;color:var(--on-surface-muted);line-height:1.7}
+.step-code{font-family:var(--font-mono);font-size:11px;color:var(--primary-dark);background:var(--primary-container);padding:3px 10px;border-radius:6px;display:inline-block;margin-top:12px}
+
+/* FEATURES */
+.features-bg{background:var(--surface-low)}
+.features-inner{max-width:1100px;margin:0 auto;padding:clamp(60px,8vw,100px) clamp(24px,5vw,80px)}
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:60px}
+.feat-card{background:var(--surface-lowest);border-radius:var(--radius);padding:36px;position:relative;overflow:hidden;transition:transform .3s var(--ease)}
+.feat-card:hover{transform:translateY(-2px)}
+.feat-card.large{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.feat-icon{font-size:24px;margin-bottom:20px;width:48px;height:48px;background:var(--primary-container);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.feat-card h3{font-family:var(--font-display);font-size:1.3rem;font-weight:500;letter-spacing:-0.01em;color:var(--on-surface);margin-bottom:10px}
+.feat-card p{font-size:14px;color:var(--on-surface-muted);line-height:1.7}
+.feat-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--primary-dark);background:var(--primary-container);padding:3px 10px;border-radius:100px;margin-bottom:16px}
+.code-demo{background:var(--inverse-surface);border-radius:var(--radius);padding:20px 24px;font-family:var(--font-mono);font-size:12px;line-height:1.8}
+.code-line{color:#a09c9a}
+.code-line.active{color:#f0eeee;background:rgba(133,83,0,0.3);margin:0 -24px;padding:0 24px;border-left:2px solid var(--primary)}
+.code-line.comment{color:#6b6766}
+.code-line.keyword{color:#fbbf24}
+.code-line.string{color:#86efac}
+.blockly-demo{background:var(--surface-low);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:8px}
+.block{border-radius:8px;padding:10px 16px;font-family:var(--font-mono);font-size:12px;font-weight:500}
+.block.blue{background:#bfdbfe;color:#1e3a5f}
+.block.amber{background:var(--primary-container);color:var(--primary-dark)}
+.block.green{background:#dcfce7;color:#14532d}
+.block.purple{background:#ede9fe;color:#4c1d95;margin-left:24px}
+
+/* GYAANI */
+.gyaani-section{max-width:1100px;margin:0 auto;padding:clamp(60px,8vw,100px) clamp(24px,5vw,80px)}
+.gyaani-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
+.gyaani-avatar{width:200px;height:200px;border-radius:50%;background:var(--primary-container);display:flex;align-items:center;justify-content:center;font-size:80px;margin-bottom:32px;position:relative}
+.gyaani-avatar::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid var(--outline-variant)}
+.gyaani-name{font-family:var(--font-display);font-size:2rem;font-weight:500;letter-spacing:-0.02em;color:var(--on-surface);margin-bottom:8px}
+.gyaani-role{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--primary-dark);margin-bottom:20px}
+.gyaani-bio{font-size:1rem;color:var(--on-surface-muted);line-height:1.7;margin-bottom:32px}
+.gyaani-traits{display:flex;flex-direction:column;gap:0}
+.trait{padding:16px 0;border-bottom:1px solid var(--outline-variant);display:flex;align-items:flex-start;gap:16px}
+.trait:last-child{border-bottom:none}
+.trait-dot{width:8px;height:8px;border-radius:50%;background:var(--primary);margin-top:7px;flex-shrink:0}
+.trait-text h4{font-size:14px;font-weight:600;color:var(--on-surface);margin-bottom:3px}
+.trait-text p{font-size:13px;color:var(--on-surface-muted);line-height:1.6}
+.chat-demo{display:flex;flex-direction:column;gap:12px}
+.chat-bubble{border-radius:var(--radius);padding:16px 20px;max-width:340px;font-size:14px;line-height:1.6}
+.chat-bubble.user{background:var(--surface-high);color:var(--on-surface);align-self:flex-end;border-bottom-right-radius:4px}
+.chat-bubble.gyaani{background:var(--surface-lowest);border:1px solid var(--outline-variant);color:var(--on-surface);align-self:flex-start;border-bottom-left-radius:4px}
+.chat-bubble.gyaani strong{color:var(--primary-dark)}
+.chat-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--on-surface-faint);margin-bottom:4px}
+.chat-label.right{text-align:right}
+.lang-badge{display:inline-flex;gap:8px;margin-top:8px}
+.lang-badge span{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:var(--primary-container);color:var(--primary-dark)}
+
+/* WAITLIST */
+.waitlist-section{background:var(--surface-low)}
+.waitlist-inner{max-width:1100px;margin:0 auto;padding:clamp(64px,10vw,120px) clamp(24px,5vw,80px) clamp(60px,8vw,100px)}
+.waitlist-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start}
+.waitlist-pitch h2{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:500;letter-spacing:-0.02em;color:var(--on-surface);line-height:1.2;margin-bottom:16px;margin-top:20px}
+.waitlist-pitch p{font-size:14px;color:var(--on-surface-muted);line-height:1.7;margin-bottom:32px}
+.perks{display:flex;flex-direction:column;gap:0}
+.perk{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--outline-variant)}
+.perk:last-child{border-bottom:none}
+.perk-icon{width:32px;height:32px;border-radius:8px;background:var(--primary-container);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.perk-text h4{font-size:14px;font-weight:600;color:var(--on-surface);margin-bottom:2px}
+.perk-text p{font-size:13px;color:var(--on-surface-muted)}
+
+/* FORM */
+.form-card{background:var(--surface-lowest);border-radius:20px;padding:40px;box-shadow:0 24px 60px rgba(28,27,27,0.06)}
+.form-section-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--on-surface-faint);margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--outline-variant)}
+.form-section-label:first-of-type{margin-top:0}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:4px}
+.field label{font-size:13px;font-weight:600;color:var(--on-surface)}
+.field input,.field select,.field textarea{font-family:var(--font-body);font-size:14px;padding:11px 16px;border:none;border-radius:10px;background:var(--surface-high);color:var(--on-surface);outline:none;transition:background .2s var(--ease),box-shadow .2s var(--ease);width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{background:var(--surface-lowest);box-shadow:0 0 0 2px rgba(245,158,11,0.2),inset 0 0 0 1px rgba(245,158,11,0.2)}
+.field textarea{resize:vertical;min-height:80px}
+.field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%236b6766' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.kids-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.kids-header-label{font-size:13px;color:var(--on-surface-muted)}
+.btn-add-kid{font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--primary-dark);background:var(--primary-container);border:none;padding:6px 14px;border-radius:8px;cursor:pointer;transition:background .2s var(--ease)}
+.btn-add-kid:hover{background:var(--primary)}
+.kid-row{background:var(--surface-low);border-radius:12px;padding:16px;margin-bottom:10px;position:relative}
+.kid-row .remove-kid{position:absolute;top:12px;right:12px;background:none;border:none;font-size:16px;cursor:pointer;color:var(--on-surface-faint);line-height:1;transition:color .2s var(--ease)}
+.kid-row .remove-kid:hover{color:var(--on-surface)}
+.submit-btn{width:100%;font-family:var(--font-body);font-size:15px;font-weight:600;color:var(--on-surface);background:var(--primary);border:none;padding:16px;border-radius:12px;cursor:pointer;margin-top:24px;transition:background .25s var(--ease),transform .2s var(--ease)}
+.submit-btn:hover{background:#e8920a;transform:translateY(-1px)}
+.submit-btn:active{transform:translateY(0)}
+.count-row{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--outline-variant)}
+.count-text{font-size:13px;color:var(--on-surface-muted)}
+.count-text strong{font-family:var(--font-mono);color:var(--on-surface);font-size:15px}
+.dl-btn{font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--on-surface);background:var(--surface-high);border:none;padding:8px 16px;border-radius:8px;cursor:pointer;transition:background .2s var(--ease);display:flex;align-items:center;gap:6px}
+.dl-btn:hover{background:var(--surface-highest)}
+.dl-btn:disabled{opacity:.4;cursor:default}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--inverse-surface);color:var(--inverse-on-surface);font-size:14px;font-weight:500;padding:12px 24px;border-radius:100px;opacity:0;transition:opacity .3s var(--ease),transform .3s var(--ease);pointer-events:none;z-index:200;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* FOOTER */
+footer{padding:40px clamp(24px,5vw,80px);text-align:center}
+footer p{font-size:13px;color:var(--on-surface-faint)}
+footer strong{color:var(--on-surface-muted);font-weight:600}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp .6s var(--ease) both}
+.hero-eyebrow{animation-delay:.1s}
+.hero h1{animation-delay:.2s}
+.hero-sub{animation-delay:.3s}
+.hero-actions{animation-delay:.4s}
+.hero-badges{animation-delay:.5s}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .features-grid{grid-template-columns:1fr}
+  .feat-card.large{grid-column:1;grid-template-columns:1fr}
+  .gyaani-layout,.waitlist-layout{grid-template-columns:1fr;gap:40px}
+  .fgrid{grid-template-columns:1fr}
+  .steps::before{display:none}
+  .step{padding:0 0 32px}
+  .form-card{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">VibeCoder <span>Jr.</span></div>
+    <button class="nav-cta" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works ↓</button>
+  </div>
+</nav>
+
+<!-- HERO + FORM COMBINED AT TOP -->
+<section id="waitlist">
+  <div class="waitlist-section" style="background:var(--surface)">
+    <div class="waitlist-inner">
+      <div class="waitlist-layout">
+
+        <!-- LEFT: Hero pitch -->
+        <div class="waitlist-pitch">
+          <div class="hero-eyebrow" style="display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--primary-dark);margin-bottom:24px">
+            <span style="width:24px;height:1px;background:var(--primary);display:inline-block"></span>
+            Launching in India · 2026
+          </div>
+          <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:500;letter-spacing:-0.02em;line-height:1.1;margin-bottom:20px;margin-top:0">Where young minds learn to <em style="font-style:italic;color:var(--primary-dark)">build</em>, not just browse</h2>
+          <p style="font-size:1rem;color:var(--on-surface-muted);line-height:1.7;margin-bottom:32px">VibeCoder Jr. is an AI-powered coding platform for children aged 6–16. Describe what you want to create in Hindi or English — Gyaani, your AI tutor, brings it to life instantly.</p>
+
+          <div class="hero-badges" style="margin-top:0;margin-bottom:36px">
+            <span class="badge">Ages 6–16</span>
+            <span class="badge">Hindi &amp; English</span>
+            <span class="badge">No prior coding needed</span>
+            <span class="badge">Parent dashboard included</span>
+            <span class="badge">Built for India</span>
+          </div>
+
+          <div class="perks">
+            <div class="perk">
+              <div class="perk-icon">🎁</div>
+              <div class="perk-text">
+                <h4>Founding family pricing</h4>
+                <p>Locked-in rate for life — significantly lower than our public launch price.</p>
+              </div>
+            </div>
+            <div class="perk">
+              <div class="perk-icon">🚀</div>
+              <div class="perk-text">
+                <h4>Priority early access</h4>
+                <p>First batch of families to try VibeCoder Jr. before anyone else.</p>
+              </div>
+            </div>
+            <div class="perk">
+              <div class="perk-icon">💬</div>
+              <div class="perk-text">
+                <h4>Directly shape the product</h4>
+                <p>Your feedback and your child's experience will influence what we build next.</p>
+              </div>
+            </div>
+            <div class="perk">
+              <div class="perk-icon">📲</div>
+              <div class="perk-text">
+                <h4>WhatsApp updates</h4>
+                <p>We'll keep you informed personally — no spam, just meaningful progress.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Form -->
+        <div class="form-card">
+          <div style="margin-bottom:24px">
+            <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:500;letter-spacing:-0.01em;color:var(--on-surface);margin-bottom:6px">Secure your family's spot</div>
+            <div style="font-size:14px;color:var(--on-surface-muted)">We're opening a small founding cohort. Join now for early access and founding pricing.</div>
+          </div>
+
+          <div class="form-section-label">Your details</div>
+
+          <div class="fgrid">
+            <div class="field">
+              <label>Full name *</label>
+              <input type="text" id="pName" placeholder="Rahul Sharma"/>
+            </div>
+            <div class="field">
+              <label>Email *</label>
+              <input type="email" id="pEmail" placeholder="rahul@gmail.com"/>
+            </div>
+            <div class="field">
+              <label>WhatsApp number *</label>
+              <input type="tel" id="pPhone" placeholder="+91 98765 43210"/>
+            </div>
+            <div class="field">
+              <label>City</label>
+              <input type="text" id="pCity" placeholder="Mumbai"/>
+            </div>
+          </div>
+
+          <div class="form-section-label">
+            <div class="kids-header">
+              <span>Your children</span>
+              <button class="btn-add-kid" onclick="addKid()">+ Add child</button>
+            </div>
+          </div>
+          <div id="kidsContainer"></div>
+
+          <div class="form-section-label">Anything else?</div>
+          <div class="field">
+            <label>What would you love your child to build?</label>
+            <textarea id="pNote" placeholder="A game, an app for school, something creative in Hindi..."></textarea>
+          </div>
+
+          <button class="submit-btn" onclick="submitForm()">Reserve my family's spot →</button>
+
+          <div class="count-row">
+            <div class="count-text">Families registered: <strong id="countDisplay">0</strong></div>
+            <button class="dl-btn" id="dlBtn" onclick="downloadCSV()" disabled>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Export CSV
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section">
+    <div class="section-tag">How it works</div>
+    <h2 class="section-title">From imagination to running code<br>in three simple steps</h2>
+    <p class="section-subtitle">No syntax memorisation. No frustration. Just the joy of building something that works.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Describe your idea</h3>
+        <p>Your child types what they want to build in plain language — in Hindi, English, or a mix of both. "Make a game where a frog jumps over cars."</p>
+        <div class="step-code">"Ek game banana hai!"</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Gyaani builds it live</h3>
+        <p>Our AI tutor generates real HTML, CSS, and JavaScript instantly — and explains every line in simple, age-appropriate language alongside the code.</p>
+        <div class="step-code">Live preview + explanation</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Explore, tweak, learn</h3>
+        <p>Children edit the code themselves, complete structured Story Quests, and build real projects they can share with friends and family.</p>
+        <div class="step-code">Save · Share · Remix</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Parents stay in the loop</h3>
+        <p>A dedicated parent dashboard shows time spent, badges earned, projects completed — with a weekly digest delivered to your inbox.</p>
+        <div class="step-code">Weekly email report</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-bg">
+    <div class="features-inner">
+      <div class="section-tag">Core features</div>
+      <h2 class="section-title">Four ways children learn to code</h2>
+
+      <div class="features-grid">
+        <!-- VibeLab — large card -->
+        <div class="feat-card large">
+          <div>
+            <div class="feat-tag">VibeLab</div>
+            <div class="feat-icon">⚡</div>
+            <h3>AI code generation, explained simply</h3>
+            <p>The heart of VibeCoder Jr. Children describe what they want to build — a game, an animation, a quiz for their class — and Gyaani generates working HTML/CSS/JS instantly. The split-screen editor shows code on one side and a live preview on the other.</p>
+            <p style="margin-top:12px;font-size:14px;color:var(--on-surface-muted)">Every line of generated code is explained in plain language. Children aren't just getting a result — they're understanding how it works.</p>
+          </div>
+          <div class="code-demo">
+            <div class="code-line comment">// Gyaani generated this for you!</div>
+            <div class="code-line">&nbsp;</div>
+            <div class="code-line"><span class="keyword">function</span> jumpFrog() {</div>
+            <div class="code-line active">  frog.style.bottom = <span class="string">'120px'</span>;</div>
+            <div class="code-line">  <span class="keyword">setTimeout</span>(() => {</div>
+            <div class="code-line">    frog.style.bottom = <span class="string">'0px'</span>;</div>
+            <div class="code-line">  }, 500);</div>
+            <div class="code-line">}</div>
+          </div>
+        </div>
+
+        <!-- Story Quests -->
+        <div class="feat-card">
+          <div class="feat-tag">Story Quests</div>
+          <div class="feat-icon">📖</div>
+          <h3>Narrative-driven learning paths</h3>
+          <p>Five immersive quests teach core concepts — variables, loops, conditionals, functions, events — through stories where children are the protagonist. Earn badges and unlock the next chapter.</p>
+        </div>
+
+        <!-- Block Coding -->
+        <div class="feat-card">
+          <div class="feat-tag">Block Coding</div>
+          <div class="feat-icon">🧩</div>
+          <h3>Visual programming for younger kids</h3>
+          <p>Built on Google Blockly, the block editor is perfect for ages 6–10. Snap logic blocks together visually — then see the real code it generates underneath, bridging the gap before typing begins.</p>
+          <div class="blockly-demo" style="margin-top:20px">
+            <div class="block blue">when game starts</div>
+            <div class="block amber">repeat 10 times</div>
+            <div class="block purple">move frog forward 10 steps</div>
+            <div class="block purple">wait 0.5 seconds</div>
+            <div class="block green">if touching enemy → game over</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GYAANI -->
+<section id="gyaani">
+  <div class="gyaani-section">
+    <div class="section-tag">Meet your tutor</div>
+
+    <div class="gyaani-layout">
+      <div>
+        <div class="gyaani-avatar">🦉</div>
+        <div class="gyaani-name">Gyaani</div>
+        <div class="gyaani-role">AI Tutor · Always patient · Never judges</div>
+        <p class="gyaani-bio">Gyaani is VibeCoder Jr.'s built-in AI guide — a wise, warm, and endlessly patient tutor who meets every child exactly where they are. Whether your child is 6 or 16, whether they speak Hindi or English, Gyaani adapts.</p>
+
+        <div class="gyaani-traits">
+          <div class="trait">
+            <div class="trait-dot"></div>
+            <div class="trait-text">
+              <h4>Explains at the right level</h4>
+              <p>Gyaani calibrates its language to the child's age and progress — simpler metaphors for beginners, technical precision for advanced learners.</p>
+            </div>
+          </div>
+          <div class="trait">
+            <div class="trait-dot"></div>
+            <div class="trait-text">
+              <h4>Bilingual from day one</h4>
+              <p>Fully fluent in Hindi and English. Children can switch mid-sentence — Gyaani keeps up without missing a beat.</p>
+            </div>
+          </div>
+          <div class="trait">
+            <div class="trait-dot"></div>
+            <div class="trait-text">
+              <h4>Encourages, never discourages</h4>
+              <p>When code breaks, Gyaani turns it into a learning moment. Every error is a discovery, not a failure.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="chat-label">Your child</div>
+        <div class="chat-demo">
+          <div class="chat-bubble user">Gyaani, mujhe ek quiz banana hai apni class ke liye!</div>
+          <div style="height:8px"></div>
+          <div class="chat-label">Gyaani</div>
+          <div class="chat-bubble gyaani">Wah! Bahut badhiya idea hai. 🦉<br><br>Chalo, pehle hum ek <strong>array</strong> banate hain — yeh ek list hoti hai jahan hum apne saare questions rakh sakte hain. Ek dukaan ki shelf ki tarah socho, jahan har jagah ek alag sawaal rakha hai.<br><br>Kya tum apni class ke liye kaun se subject ka quiz banana chahte ho?</div>
+          <div style="height:8px"></div>
+          <div class="chat-bubble user">Maths! But also show me in English please</div>
+          <div style="height:8px"></div>
+          <div class="chat-bubble gyaani">Perfect — let's switch! Here's the code for your first question. See how we use an <strong>array</strong> — it's like a numbered box where each slot holds one question and its correct answer. I've highlighted line 3 where the magic starts...</div>
+          <div class="lang-badge"><span>हिंदी</span><span>English</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>VibeCoder Jr.</strong> · Built with care in India · &copy; 2025</p>
+  <p style="margin-top:6px">Questions? Reach us on WhatsApp or email at <strong>hello@vibecoderjr.in</strong></p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://cykncshudwvgbaiblpjk.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5a25jc2h1ZHd2Z2JhaWJscGprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NTYzNTQsImV4cCI6MjA5MDQzMjM1NH0.p4pTtRAsR6hspaz5clUSNmk9RH1-H-2KaZqHSc_qRVE';
+
+let kidCount = 0;
+
+function updateCount(){
+  fetch(`${SUPABASE_URL}/rest/v1/waitlist_signups?select=id`, {
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      'Prefer': 'count=exact'
+    }
+  }).then(r => {
+    const count = r.headers.get('content-range')?.split('/')[1] || '0';
+    document.getElementById('countDisplay').textContent = count;
+    document.getElementById('dlBtn').disabled = count === '0';
+  }).catch(()=>{});
+}
+
+function addKid(name='', age='', interests=''){
+  kidCount++;
+  const id = kidCount;
+  const div = document.createElement('div');
+  div.className = 'kid-row';
+  div.id = 'kid-' + id;
+  div.innerHTML = `
+    <button class="remove-kid" onclick="removeKid(${id})" title="Remove">×</button>
+    <div class="fgrid">
+      <div class="field"><label>Child's name</label><input type="text" id="kname-${id}" value="${name}" placeholder="Priya"/></div>
+      <div class="field"><label>Age</label>
+        <select id="kage-${id}">
+          <option value="">Select age</option>
+          ${[...Array(13)].map((_,i)=>`<option value="${i+6}" ${age==String(i+6)?'selected':''}>${i+6} years</option>`).join('')}
+        </select>
+      </div>
+      <div class="field" style="grid-column:1/-1">
+        <label>What does this child enjoy?</label>
+        <input type="text" id="kint-${id}" value="${interests}" placeholder="Games, drawing, science, stories..."/>
+      </div>
+    </div>`;
+  document.getElementById('kidsContainer').appendChild(div);
+}
+
+function removeKid(id){
+  const el = document.getElementById('kid-' + id);
+  if(el) el.remove();
+}
+
+function getKids(){
+  const rows = document.querySelectorAll('.kid-row');
+  return Array.from(rows).map(r => {
+    const id = r.id.replace('kid-','');
+    return {
+      name: document.getElementById('kname-'+id)?.value.trim() || '',
+      age: document.getElementById('kage-'+id)?.value || '',
+      interests: document.getElementById('kint-'+id)?.value.trim() || ''
+    };
+  });
+}
+
+function validate(){
+  let ok = true;
+  ['pName','pEmail','pPhone'].forEach(f => {
+    const el = document.getElementById(f);
+    el.style.boxShadow = '';
+    if(!el.value.trim()){
+      el.style.boxShadow = '0 0 0 2px rgba(239,68,68,0.3), inset 0 0 0 1px rgba(239,68,68,0.4)';
+      ok = false;
+    }
+  });
+  const em = document.getElementById('pEmail').value;
+  if(em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){
+    document.getElementById('pEmail').style.boxShadow = '0 0 0 2px rgba(239,68,68,0.3), inset 0 0 0 1px rgba(239,68,68,0.4)';
+    ok = false;
+  }
+  return ok;
+}
+
+async function submitForm(){
+  if(!validate()) return;
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+
+  const kids = getKids();
+  const entry = {
+    parent_name: document.getElementById('pName').value.trim(),
+    email: document.getElementById('pEmail').value.trim(),
+    whatsapp: document.getElementById('pPhone').value.trim(),
+    city: document.getElementById('pCity').value.trim(),
+    num_kids: kids.length,
+    kids_names: kids.map(k=>k.name).filter(Boolean).join(' | '),
+    kids_ages: kids.map(k=>k.age).filter(Boolean).join(' | '),
+    kids_interests: kids.map(k=>k.interests).filter(Boolean).join(' | '),
+    note: document.getElementById('pNote').value.trim()
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist_signups`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(entry)
+    });
+    if(!res.ok) throw new Error('Failed');
+    clearForm();
+    updateCount();
+    showToast("You're on the list! We'll be in touch soon. 🎉");
+  } catch(e) {
+    showToast('Something went wrong. Please try again.');
+  } finally {
+    btn.textContent = 'Reserve my family\'s spot →';
+    btn.disabled = false;
+  }
+}
+
+function clearForm(){
+  ['pName','pEmail','pPhone','pCity','pNote'].forEach(f => document.getElementById(f).value = '');
+  document.getElementById('kidsContainer').innerHTML = '';
+  kidCount = 0;
+  addKid();
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+async function downloadCSV(){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist_signups?select=*&order=created_at.asc`, {
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+    }
+  });
+  const data = await res.json();
+  if(!data.length) return;
+  const headers = ['created_at','parent_name','email','whatsapp','city','num_kids','kids_names','kids_ages','kids_interests','note'];
+  const rows = data.map(e => headers.map(h => `"${String(e[h]||'').replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `vcjr-waitlist-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+addKid();
+updateCount();
+</script>
+</body>
+</html>
